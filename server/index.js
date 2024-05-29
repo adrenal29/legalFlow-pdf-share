@@ -6,7 +6,7 @@ const cors = require("cors");
 const authRoutes = require('./routes/auth')
 const pdfRoutes = require('./routes/pdf')
 app.use(cors({
-    origin: 'http://localhost:5173', // React app URL
+    origin: 'https://pdf-share.onrender.com', // React app URL
     credentials: true,
 }));
 app.use(express.json());
