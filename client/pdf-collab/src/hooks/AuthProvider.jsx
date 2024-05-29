@@ -18,7 +18,7 @@ const AuthProvider = ({ children }) => {
 
   const loginAction = async (data) => {
     try {
-      const response = await axios.post("http://localhost:3001/api/auth/login", 
+      const response = await axios.post("https://pdf-share.onrender.com/api/auth/login", 
         {
           email: data.email,
           password: data.password  
@@ -46,7 +46,7 @@ const AuthProvider = ({ children }) => {
 
   const registerAction = async (data) => {
     try {
-      const response = await axios.post("http://localhost:3001/api/auth/register", 
+      const response = await axios.post("https://pdf-share.onrender.com/api/auth/register", 
         {
           username: data.username,
           email: data.email,
