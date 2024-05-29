@@ -13,7 +13,9 @@ function App() {
         <AuthProvider>
           <Routes>
             <Route path="/" element={<Login />} />
+            <Route element={<PrivateRoute />}>
               <Route path="/dashboard" element={<Dashboard />} />
+            </Route>
             {/* Other routes */}
             <Route path="/register" element={<Register/>} />
             <Route path="/pdf/:pdfId" element={<AccessPdf/>} />
