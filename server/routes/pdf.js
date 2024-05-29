@@ -60,7 +60,8 @@ router.post('/upload-pdf', upload.single('pdf'), async (req, res) => {
         ownerEmail: req.body.email, 
         uploadPdfId: fileId,
         fileName:req.file.originalname,
-        sharedWith: [] // Initially no users are shared with the file
+        sharedWith: [] ,// Initially no users are shared with the file
+        isPublic:false
       });
       await pdfFile.save();
       res.status(200).send({ message: 'File uploaded successfully', fileId: uploadStream.id });
@@ -80,10 +81,7 @@ router.get('/getPdf', async(req, res) => {
     if (!pdfFile) {
       return res.status(404).json({ error: 'PDF file not found' });
     }
-    // Check if the document is publicly shareable
-    if (!pdfFile.isPublic) {
-      return res.status(403).json({ error: 'Access denied' });
-    }
+
     const bucket = new GridFSBucket(db, { bucketName: 'pdfs' });
     console.log(id)
     // Check if file exists
@@ -222,4 +220,46 @@ router.post('/share-publicly', async (req, res) => {
   }
 });
 
+
+router.get('/viewPdf', async(req, res) => {
+  try {
+    const id= req.query.id;
+    console.log(id)
+    const pdfFile = await PdfFile.findOne({uploadPdfId:id});
+    if (!pdfFile) {
+      return res.status(404).json({ error: 'PDF file not found' });
+    }
+    // Check if the document is publicly shareable
+    if (!pdfFile.isPublic) {
+      return res.status(403).json({ error: 'Access denied' });
+    }
+    const bucket = new GridFSBucket(db, { bucketName: 'pdfs' });
+    console.log(id)
+    // Check if file exists
+    const file = await bucket.find({ _id: new mongoose.Types.ObjectId(id) }).toArray();
+    if (file.length === 0) {
+      return res.status(404).json({ error: { text: "File not found" } });
+    }
+
+    // set the headers
+    res.set("Content-Type", file[0].contentType);
+    res.set("Content-Disposition", `attachment; filename=${file[0].filename}`);
+
+    // create a stream to read from the bucket
+    const downloadStream = bucket.openDownloadStream(new mongoose.Types.ObjectId(id));
+
+    // pipe the stream to the response
+    downloadStream.pipe(res);
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({error: { text: `Unable to download file`, error }});
+  }
+});
+
+router.get('/getAccess',async(req,res)=>{
+  const id= req.query.id;
+    console.log(id)
+    const pdfFile = await PdfFile.findOne({uploadPdfId:id});
+  res.status(200).json({error:false,pdfFile})
+})
 module.exports = router;
