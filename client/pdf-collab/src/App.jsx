@@ -5,13 +5,14 @@ import Dashboard from "./components/Dashboard";
 import AuthProvider from "./hooks/AuthProvider.jsx";
 import PrivateRoute from "./router/route.jsx";
 import AccessPdf from "./components/AccessPdf";
+import { Toaster } from "@/components/ui/sonner"
 function App() {
   return (
     <div className="App">
       <Router>
         <AuthProvider>
           <Routes>
-            <Route path="/login" element={<Login />} />
+            <Route path="/" element={<Login />} />
             <Route element={<PrivateRoute />}>
               <Route path="/dashboard" element={<Dashboard />} />
             </Route>
@@ -21,6 +22,7 @@ function App() {
           </Routes>
         </AuthProvider>
       </Router>
+      <Toaster />
     </div>
   );
 }

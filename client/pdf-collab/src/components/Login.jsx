@@ -10,7 +10,10 @@ const Login = () => {
     username: "",
     password: "",
   });
-
+  const fill=(e)=>{
+   const input={email:"user1@gmail.com",password:"123"}
+    auth.loginAction(input);
+  }
   const auth = useAuth();
   const handleSubmitEvent = (e) => {
     e.preventDefault();
@@ -66,6 +69,7 @@ const Login = () => {
                   id="password"
                   type="password"
                   required
+                  
                   onChange={(e)=>handleInput(e,"password")}
                 />
               </div>
@@ -79,10 +83,11 @@ const Login = () => {
           </form>
           <div className="mt-4 text-center text-sm">
             Don&apos;t have an account?{" "}
-            <Link href="/register" className="underline">
+            <Link to="/register" className="underline">
               Sign up
             </Link>
           </div>
+          <h2 className="text-center font-semibold italic cursor-pointer" onClick={fill}>Use test credentials</h2>
         </div>
       </div>
       <div className="hidden bg-muted lg:block">
@@ -93,7 +98,9 @@ const Login = () => {
           height="1080"
           className="h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
         /> */}
+         
       </div>
+     
     </div>
   );
 };

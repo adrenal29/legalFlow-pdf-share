@@ -89,7 +89,7 @@ const Login = () => {
           </form>
           <div className="mt-4 text-center text-sm">
             Already have an account?{" "}
-            <Link href="#" className="underline">
+            <Link to="/" className="underline">
               Login
             </Link>
           </div>

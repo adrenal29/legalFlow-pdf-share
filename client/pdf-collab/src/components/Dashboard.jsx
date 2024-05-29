@@ -40,10 +40,12 @@ const Dashboard = () => {
   const [pdfFile, setPDFFile] = useState(null);
   const [selectedFileId, setSelectedFileId] = useState(null);
   const user = auth.getCurrentUserEmail();
+  const [upload,setUpload]=useState(false)
   const handleFileChange = (e) => {
     setPDFFile(e.target.files[0]);
   };
   const handleSubmit = async (e) => {
+    setUpload(true)
     e.preventDefault();
     const formData = new FormData();
     formData.append("pdf", pdfFile);
@@ -56,6 +58,8 @@ const Dashboard = () => {
     } catch (error) {
       console.error("PDF upload error:", error);
     }
+    setUpload(false)
+    window.location.reload()
   };
   useEffect(() => {
     console.log(selectedFileId);
@@ -188,7 +192,7 @@ const Dashboard = () => {
               </nav>
               <div className="mt-auto">
                 <Card>
-                  <CardHeader>
+                  {/* <CardHeader>
                     <CardTitle>Upgrade to Pro</CardTitle>
                     <CardDescription>
                       Unlock all features and get unlimited access to our
@@ -199,7 +203,7 @@ const Dashboard = () => {
                     <Button size="sm" className="w-full">
                       Upgrade
                     </Button>
-                  </CardContent>
+                  </CardContent> */}
                 </Card>
               </div>
             </SheetContent>
@@ -266,7 +270,7 @@ const Dashboard = () => {
                       type="submit"
                       className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-gray-600 mx-4 mb-2"
                     >
-                      Upload
+                    {upload?"Uploading":"Upload"}  
                     </button>
                   </form>
                 </div>

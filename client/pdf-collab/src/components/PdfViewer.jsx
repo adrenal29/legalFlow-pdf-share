@@ -43,14 +43,14 @@ const PdfViewer = ({ fileId, user }) => {
       setPageNumber(pageNumber + 1);
     }
   };
-  const getComments=async ()=>{
+  const getComments = async () => {
     const comments = await axios.get(
-        "http://localhost:3001/api/pdf/getComments",
-        { params: { id: fileId } }
-      );
-      console.log(comments);
-      setComments(comments.data.comments);
-  }
+      "http://localhost:3001/api/pdf/getComments",
+      { params: { id: fileId } }
+    );
+    console.log(comments);
+    setComments(comments.data.comments);
+  };
   useEffect(() => {
     pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
     const fetchPdfBlob = async () => {
@@ -85,6 +85,9 @@ const PdfViewer = ({ fileId, user }) => {
   const onPageChange = ({ pageNumber }) => {
     setPageNumber(pageNumber);
   };
+  if (!fileId) {
+    return <div>No PDF ID provided</div>;
+  }
 
   return (
     <div className="relative h-[80vh] overflow-auto">
@@ -129,19 +132,23 @@ const PdfViewer = ({ fileId, user }) => {
             </button>
           </form>
           {/* Display existing comments */}
-          <div>
-          {comments.map((comment, index) => (
-    <div key={index} className="comment">
-      <div className="comment-header">
-      <div className="comment-text">{comment.commentText}</div>
-        <span className="comment-user">{comment.userEmail}{" "}</span>
-        <span className="comment-time">{new Date(comment.createdAt).toLocaleString()}</span>
-      </div>
-      
-    </div>
-  ))}
-
-          </div>
+          {user ? (
+            <div>
+              {comments.map((comment, index) => (
+                <div key={index} className="comment">
+                  <div className="comment-header">
+                    <div className="comment-text">{comment.commentText}</div>
+                    <span className="comment-user">{comment.userEmail} </span>
+                    <span className="comment-time">
+                      {new Date(comment.createdAt).toLocaleString()}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <h2>You must log in to your account to view your comments by other</h2>
+          )}
         </div>
       )}
     </div>
