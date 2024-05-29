@@ -6,7 +6,7 @@ const cors = require("cors");
 const authRoutes = require('./routes/auth')
 const pdfRoutes = require('./routes/pdf')
 app.use(cors({
-    origin: 'https://pdf-share.vercel.app/', // React app URL
+    origin: 'https://pdf-share.vercel.app', // React app URL
     credentials: true,
 }));
 app.use(express.json());
