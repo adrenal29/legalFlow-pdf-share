@@ -20,7 +20,7 @@ const PdfViewer = ({ fileId, user }) => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "https://pdf-share.onrender.com/api/pdf/addComments",
+        "http://localhost:3001/api/pdf/addComments",
         {
           pdfFileId: fileId,
           userEmail: user,
@@ -45,7 +45,7 @@ const PdfViewer = ({ fileId, user }) => {
   };
   const getComments = async () => {
     const comments = await axios.get(
-      "https://pdf-share.onrender.com/api/pdf/getComments",
+      "http://localhost:3001/api/pdf/getComments",
       { params: { id: fileId } }
     );
     console.log(comments);
@@ -56,7 +56,7 @@ const PdfViewer = ({ fileId, user }) => {
     const fetchPdfBlob = async () => {
       try {
         const response = await axios.get(
-          "https://pdf-share.onrender.com/api/pdf/getPdf",
+          "http://localhost:3001/api/pdf/getPdf",
           { params: { id: fileId }, responseType: "blob" }
         );
         if (response.status !== 200) {
@@ -76,6 +76,9 @@ const PdfViewer = ({ fileId, user }) => {
     };
 
     fetchPdfBlob();
+    return ()=>{
+        setCommentPanelOpen(false)
+    }
   }, [fileId]);
 
   const onDocumentLoadSuccess = ({ numPages }) => {
@@ -109,7 +112,7 @@ const PdfViewer = ({ fileId, user }) => {
         </button>
       </div>
       {pdfBlob && (
-        <div className=" overflow-auto">
+        <div className=" overflow-x-scroll">
           <Document file={pdfBlob} onLoadSuccess={onDocumentLoadSuccess}>
             <Page pageNumber={pageNumber} width={500} height={50} />
           </Document>

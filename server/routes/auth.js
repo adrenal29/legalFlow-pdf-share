@@ -50,8 +50,8 @@ router.post("/register", async (req, res) => {
   }
 });
 
-router.get("/check",(req,res)=>{
-    res.json("My name is ANthony")
-})
+// router.get("/check",(req,res)=>{
+//     res.json("My name is Mohit")
+// })
 
 module.exports = router;

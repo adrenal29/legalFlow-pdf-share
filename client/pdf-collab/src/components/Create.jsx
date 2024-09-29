@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAuth } from "../hooks/AuthProvider";
 import { Link } from "react-router-dom";
 import axios from "axios";
@@ -6,7 +6,9 @@ import {
   Bell,
   CircleUser,
   Home,
+  LineChart,
   Menu,
+  Package,
   Package2,
   Search,
   ShoppingCart,
@@ -33,22 +35,24 @@ import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import PdfViewer from "./PdfViewer";
 import PdfList from "./PdfList";
-// import SnackBar from "./SnackBar";
+import SnackBar from "./SnackBar";
 import { toast } from "sonner";
-const Dashboard = () => {
+import Flow from "./workflow/Create";
+import FlowMaker from "./workflow/FlowMaker";
+const Create = () => {
   const auth = useAuth();
   const [pdfFile, setPDFFile] = useState(null);
   const [selectedFileId, setSelectedFileId] = useState(null);
   const user = auth.getCurrentUserEmail();
   const [upload, setUpload] = useState(false);
-  // const [toggle, setToggle] = useState(false);
+  const [toggle, setToggle] = useState(false);
 
-  // const handleShowSnack = () => {
-  //   setToggle(true);
-  //   setTimeout(() => {
-  //     setToggle(false);
-  //   }, 3000);
-  // };
+  const handleShowSnack = () => {
+    setToggle(true);
+    setTimeout(() => {
+      setToggle(false);
+    }, 3000);
+  };
   const handleFileChange = (e) => {
     setPDFFile(e.target.files[0]);
   };
@@ -63,12 +67,10 @@ const Dashboard = () => {
         "http://localhost:3001/api/pdf/upload-pdf",
         formData
       );
-      console.log(response);
       toast.success("Pdf Uploaded successfully");
     } catch (error) {
       console.error("PDF upload error:", error);
     }
-
     setUpload(false);
     window.location.reload();
   };
@@ -188,23 +190,20 @@ const Dashboard = () => {
                     6
                   </Badge>
                 </Link> */}
-                <a
-                  href="/create"
+                {/* <Link
+                  href="#"
                   className="mx-[-0.65rem] flex items-center gap-4 rounded-xl bg-muted px-3 py-2 text-foreground hover:text-foreground"
                 >
                   <ShoppingCart className="h-5 w-5" />
                   Create Workflow
-                  <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
-                    6
-                  </Badge>
-                </a>
-                {/* <Link
-                  href="#"
+                </Link> */}
+                <a
+                  href="/create"
                   className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
                 >
                   <Package className="h-5 w-5" />
-                  Analytics
-                </Link> */}
+                  Create Workflow
+                </a>
               </nav>
               <div className="mt-auto">
                 <Card>
@@ -255,62 +254,11 @@ const Dashboard = () => {
             </DropdownMenuContent>
           </DropdownMenu>
         </header>
-        <main className="flex flex-1  gap-4 p-4 lg:gap-6 lg:p-6  border border-right flex-col md:flex-row ">
-          <div className="md:w-[40vw] w-[80vw]">
-            <PdfList setSelectedFileId={setSelectedFileId} />
-            <div className="flex items-center">
-              <h1 className="text-lg font-semibold md:text-2xl">
-                PDF Upload and Share
-              </h1>
-            </div>
-            <div className="flex flex-1 flex-col gap-4">
-              {/* Render uploaded file section */}
-              <div className="flex items-center justify-center rounded-lg border border-dashed shadow-sm">
-                <div className="flex flex-col items-center gap-1 text-center">
-                  <p className="text-sm text-muted-foreground my-2">
-                    Upload a PDF to collaborate with others.
-                  </p>
-                  <form
-                    onSubmit={handleSubmit}
-                    className="space-y-4"
-                    encType="multipart/form-data"
-                  >
-                    <input
-                      type="file"
-                      accept=".pdf"
-                      onChange={handleFileChange}
-                      className="border rounded p-2 my-4"
-                      name="pdf"
-                    />
-                    <button
-                      type="submit"
-                      className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-gray-600 mx-4 mb-2"
-                    >
-                      {upload ? "Uploading" : "Upload"}
-                    </button>
-                  </form>
-                </div>
-              </div>
-            </div>
-            {/* Render selected file section */}
-          </div>
-          <div className="border border-dashed max-w-[90vw]">
-            {selectedFileId ? (
-              <div className=" rounded-lg border border-dashed shadow-sm p-2 pb-0 ">
-                <PdfViewer fileId={selectedFileId} user={user} />
-              </div>
-            ) : (
-              <h2 className="w-full">Select file to view </h2>
-            )}
-          </div>
-          {/* <Button onClick={handleShowSnack}>Show Snack Bar</Button>
-          {
-            toggle&&<SnackBar/>
-          } */}
-        </main>
+
+        <Flow />
       </div>
     </div>
   );
 };
 
-export default Dashboard;
+export default Create;

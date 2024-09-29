@@ -24,7 +24,7 @@ const AccessPdf = () => {
   const { pdfId } = useParams();
   const checkAccess = async () => {
     const response = await axios.get(
-      `https://pdf-share.onrender.com/api/pdf/getAccess`,
+      `http://localhost:3001/api/pdf/getAccess`,
       {
         params: { id: pdfId },
       }
@@ -52,7 +52,7 @@ const AccessPdf = () => {
     <>
       <Link to="/dashboard" className="flex items-center gap-2 font-semibold">
         <Package2 className="h-6 w-6" />
-        <span className="">PDFCollab</span>
+        <span className="">DocuFlow</span>
       </Link>
       {isPublic ? (
         <div className="w-[50vw] ml-[25vw] pl-25">
