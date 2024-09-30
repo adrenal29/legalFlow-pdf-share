@@ -25,7 +25,7 @@ const PdfList = ({ setSelectedFileId }) => {
 
         setLoading(true);
         const response = await axios.get(
-          `http://localhost:3001/api/pdf/getPdfs?email=${
+          `https://pdf-share.onrender.com/api/pdf/getPdfs?email=${
             JSON.parse(userEmail).email
           }`
         );
@@ -45,7 +45,7 @@ const PdfList = ({ setSelectedFileId }) => {
     e.preventDefault();
     const shareEmail = e.target.elements.email.value;
     const response = await axios.post(
-      `http://localhost:3001/api/pdf/addUser?pdfId=${pdfFileId}`,
+      `https://pdf-share.onrender.com/api/pdf/addUser?pdfId=${pdfFileId}`,
       {
         shareEmail,
       }
@@ -56,7 +56,7 @@ const PdfList = ({ setSelectedFileId }) => {
   const handlePublicShare = async (e, pdfFileId) => {
     e.preventDefault();
     const response = await axios.post(
-      `http://localhost:3001/api/pdf/share-publicly?pdfId=${pdfFileId}`
+      `https://pdf-share.onrender.com/api/pdf/share-publicly?pdfId=${pdfFileId}`
     );
     toast.success("File shared successfully")
   };

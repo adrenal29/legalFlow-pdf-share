@@ -24,7 +24,7 @@ const AccessPdf = () => {
   const { pdfId } = useParams();
   const checkAccess = async () => {
     const response = await axios.get(
-      `http://localhost:3001/api/pdf/getAccess`,
+      `https://pdf-share.onrender.com/api/pdf/getAccess`,
       {
         params: { id: pdfId },
       }

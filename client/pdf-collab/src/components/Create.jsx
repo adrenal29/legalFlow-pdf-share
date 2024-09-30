@@ -64,7 +64,7 @@ const Create = () => {
     formData.append("email", user);
     try {
       const response = await axios.post(
-        "http://localhost:3001/api/pdf/upload-pdf",
+        "https://pdf-share.onrender.com/api/pdf/upload-pdf",
         formData
       );
       toast.success("Pdf Uploaded successfully");
